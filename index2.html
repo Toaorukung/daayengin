@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <title>Document Printout</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+
+    .print-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .print-field {
+      display: flex;
+    }
+
+    .print-label {
+      font-size: 10px;
+      margin-right: 1px;
+    }
+
+    .textsize {
+      font-size: 12px;
+    }
+
+    .textsize1 {
+      font-size: 16px;
+    }
+
+    .print-value {
+      font-size: 15px;
+    }
+
+    .print-value1 {
+      font-size: 10px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <p class="text-center textsize1 text-primary">รับเสื้อเวลา 9.00 - 18.30 น. เท่านั้น</p>
+      <p class="col-7 textsize">ใบรับเสื้อร้านด้ายเงิน</p>
+      <p class="col-5 textsize text-danger" id="iddata">เลขที่</p>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="row row-cols-2 offset-md-6">
+        <div class="col-12">
+          <span class="print-label">ชื่อ-สกุล:</span>
+          <span class="print-value" id="info1"></span>
+        </div>
+
+        <div class="col-12 py-2">
+          <span class="print-label">ชื่อเล่น/Eng:</span>
+          <span class="print-value" id="info3"></span>
+        </div>
+
+        <div class="col-12 py-2">
+          <span class="print-label">โรงเรียน:</span>
+          <span class="print-value" id="info4"></span>
+        </div>
+
+        <div class="col-5 py-2">
+          <span class="print-label">ชั้น:</span>
+          <span class="print-value" id="info5"></span>
+        </div>
+
+        <div class="col-7 py-2">
+          <span class="print-label">เลขประจำตัว:</span>
+          <span class="print-value" id="info6"></span>
+        </div>
+
+        <div class="col-12 py-2">
+          <span class="print-label">รายละเอียด:</span>
+          <span class="print-value1" id="info12"></span>
+        </div>
+
+        <div class="col-6 py-2">
+          <span class="print-label">จำนวนเสื้อ น.ร:</span>
+          <span class="print-value" id="info7"></span>
+        </div>
+
+        <div class="col-3 py-2">
+          <span class="print-label">พละ:</span>
+          <span class="print-value" id="info8"></span>
+        </div>
+
+        <div class="col-3 py-2">
+          <span class="print-label">อื่นๆ:</span>
+          <span class="print-value" id="info9"></span>
+        </div>
+
+        <div class="col-12 py-2">
+          <span class="print-label">เบอร์ติดต่อ:</span>
+          <span class="print-value" id="info10"></span>
+        </div>
+
+        <div class="col-12 py-2">
+          <span class="print-label">นัดรับวันที่:</span>
+          <span class="print-value text-danger" id="info11"></span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      function getQueryParams() {
+        let params = {}
+        window.location.search.substring(1).split("&").forEach(function (part) {
+          let item = part.split("=")
+          params[item[0]] = decodeURIComponent(item[1])
+        })
+        return params
+      }
+
+      let queryParams = getQueryParams()
+
+      $('#info1').text(queryParams['info1'] + ' ' + queryParams['info2'])
+      $('#info3').text(queryParams['info3'])
+      $('#info4').text(queryParams['info4'])
+      $('#info5').text(queryParams['info5'])
+      $('#info6').text(queryParams['info6'])
+      $('#info7').text(queryParams['info7'])
+      $('#info8').text(queryParams['info8'])
+      $('#info9').text(queryParams['info9'])
+      $('#info10').text(queryParams['info10'])
+      $('#info11').text(convertToThaiDate(queryParams['info11']))
+      $('#info12').text(queryParams['info12'])
+      $('#iddata').text(queryParams['iddata'])
+
+      window.print()
+      window.onafterprint = function () {
+        // window.location.href = window.location.origin
+      }
+    })
+
+    function convertToThaiDate(isoDate) {
+      const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+
+      const [year, month, day] = isoDate.split('-');
+      const thaiYear = parseInt(year) + 543;
+      const thaiMonth = thaiMonths[parseInt(month) - 1];
+      const thaiDate = `${day} ${thaiMonth} ${thaiYear}`;
+
+      return thaiDate;
+    }
+
+  </script>
+</body>
+
+</html>
