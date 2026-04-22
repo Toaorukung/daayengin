@@ -41,7 +41,7 @@ function save() {
     info6: $('#info6').val(),
     info7: $('#info7').val(),
     info8: $('#info8').val(),
-    info9: $('#info9').val(),
+    info9: $('#info9').val() + ' ' + $('#info9qty').val(),
     info10: $('#info10').val(),
     info11: $('#info11').val(),
     info12: $('#info12').val()
