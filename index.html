@@ -98,6 +98,9 @@
               <div class="col-4">
                 <input type="text" class="form-control" inputmode="numeric" id="info9qty" name="info9qty" placeholder="จำนวนชุด" required>
               </div>
+              <div class="col-12" id="info9other_wrap" style="display:none">
+                <input type="text" class="form-control" id="info9other" name="info9other" placeholder="ระบุชื่อเสื้อ">
+              </div>
             </div>
           </div>
 
@@ -127,6 +130,17 @@
     </div>
   </main>
   <script src="script.js"></script>
+  <script>
+    $('#info9').on('change', function () {
+      if ($(this).val() === 'อื่นๆ') {
+        $('#info9other_wrap').show()
+        $('#info9other').attr('required', true)
+      } else {
+        $('#info9other_wrap').hide()
+        $('#info9other').removeAttr('required').val('')
+      }
+    })
+  </script>
 
 </body>
 
