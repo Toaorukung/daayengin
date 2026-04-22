@@ -14,112 +14,127 @@
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
-      padding: 10px;
+      padding: 16px;
+      font-size: 13px;
     }
 
-    .print-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      align-items: start;
-      margin-bottom: 20px;
+    .title {
+      font-size: 26px;
+      font-weight: bold;
+      color: red;
+      text-align: center;
+      margin-bottom: 4px;
     }
 
-    .print-field {
+    .header-row {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    .print-label {
-      font-size: 10px;
-      margin-right: 1px;
+    .header-left { font-size: 12px; color: #555; }
+    .header-right { font-size: 15px; font-weight: bold; color: #000; }
+
+    .field { margin-bottom: 8px; }
+    .label { font-size: 11px; color: #333; }
+    .value { font-size: 18px; font-weight: bold; }
+    .value-sm { font-size: 13px; }
+    .value-lg { font-size: 22px; font-weight: bold; }
+
+    .row-2col {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .row-2col > div { flex: 1; }
+
+    .date-value {
+      font-size: 26px;
+      font-weight: bold;
+      color: red;
     }
 
-    .textsize {
-      font-size: 12px;
-    }
-
-    .textsize1 {
-      font-size: 16px;
-    }
-
-    .print-value {
-      font-size: 15px;
-    }
-
-    .print-value1 {
-      font-size: 10px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+    .indent { padding-left: 20px; }
+    @media print {
+      @page {
+        size: A6 portrait;
+        margin: 5mm;
+      }
+      body {
+        padding: 0;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="row">
-      <p class="text-center textsize1 text-primary">รับเสื้อเวลา 9.00 - 18.30 น. เท่านั้น</p>
-      <p class="col-7 textsize">ใบรับเสื้อร้านด้ายเงิน</p>
-      <p class="col-5 textsize text-danger" id="iddata">เลขที่</p>
+  <div class="container" style="max-width:480px;">
+
+    <div class="title">รับเสื้อเวลา  9.00-18.30 น. เท่านั้น</div>
+
+    <div class="header-row">
+      <span class="header-left">ใบรับเสื้อร้านด้ายเงิน</span>
+      <span class="header-right" id="iddata">เลขที่</span>
     </div>
-    <div class="row justify-content-md-center">
-      <div class="row row-cols-2 offset-md-6">
-        <div class="col-12">
-          <span class="print-label">ชื่อ-สกุล:</span>
-          <span class="print-value" id="info1"></span>
-        </div>
 
-        <div class="col-12 py-2">
-          <span class="print-label">Eng/Eng:</span>
-          <span class="print-value" id="info3"></span>
-        </div>
+    <div class="field">
+      <div class="label">ชื่อ-สกุล</div>
+      <div class="value" id="info1"></div>
+    </div>
 
-        <div class="col-12 py-2">
-          <span class="print-label">โรงเรียน:</span>
-          <span class="print-value" id="info4"></span>
-        </div>
+    <div class="field">
+      <div class="label">ชื่อเล่น/Eng</div>
+      <div class="value-sm" id="info3"></div>
+    </div>
 
-        <div class="col-5 py-2">
-          <span class="print-label">ชั้น:</span>
-          <span class="print-value" id="info5"></span>
-        </div>
+    <div class="field">
+      <div class="label">โรงเรียน</div>
+      <div class="value-lg" id="info4"></div>
+    </div>
 
-        <div class="col-7 py-2">
-          <span class="print-label">เลขประจำตัว:</span>
-          <span class="print-value" id="info6"></span>
-        </div>
-
-        <div class="col-12 py-2">
-          <span class="print-label">รายละเอียด:</span>
-          <span class="print-value1" id="info12"></span>
-        </div>
-
-        <div class="col-6 py-2">
-          <span class="print-label">จำนวนเสื้อ น.ร:</span>
-          <span class="print-value" id="info7"></span>
-        </div>
-
-        <div class="col-3 py-2">
-          <span class="print-label">พละ:</span>
-          <span class="print-value" id="info8"></span>
-        </div>
-
-        <div class="col-3 py-2">
-          <span class="print-label">อื่นๆ:</span>
-          <span class="print-value" id="info9"></span>
-        </div>
-
-        <div class="col-12 py-2">
-          <span class="print-label">เบอร์ติดต่อ:</span>
-          <span class="print-value" id="info10"></span>
-        </div>
-
-        <div class="col-12 py-2">
-          <span class="print-label">นัดรับวันที่:</span>
-          <span class="print-value text-danger" id="info11"></span>
-        </div>
-
+    <div class="row-2col">
+      <div class="field">
+        <div class="label">ชั้น</div>
+        <div class="value-sm" id="info5"></div>
+      </div>
+      <div class="field">
+        <div class="label">เลขประจำตัว</div>
+        <div class="value-sm" id="info6"></div>
       </div>
     </div>
+
+    <div class="row-2col">
+      <div class="field">
+        <div class="label">เสื้อ น.ร.</div>
+        <div class="value-sm" id="info7"></div>
+      </div>
+      <div class="field">
+        <div class="label">พละ</div>
+        <div class="value-sm" id="info8"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="label">เสื้ออื่นๆ</div>
+      <div class="value-sm" id="info9"></div>
+    </div>
+
+    <div class="field">
+      <div class="label">รายละเอียด</div>
+      <div class="value-sm" id="info12"></div>
+    </div>
+
+    <div class="field">
+      <div class="label">เบอร์ติดต่อ</div>
+      <div class="value-sm" id="info10"></div>
+    </div>
+
+    <div class="field" style="margin-top:12px;">
+      <div class="label">นัดรับวันที่</div>
+      <div class="date-value" id="info11"></div>
+    </div>
+
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -143,7 +158,11 @@
       $('#info6').text(queryParams['info6'])
       $('#info7').text(queryParams['info7'])
       $('#info8').text(queryParams['info8'])
-      $('#info9').text(queryParams['info9'])
+      const info9type = queryParams['info9'] || ''
+      const info9qty = queryParams['info9qty'] || ''
+      const info9other = queryParams['info9other'] || ''
+      const info9display = info9type ? ((info9type === 'อื่นๆ' ? info9other : info9type) + (info9qty ? ' ' + info9qty : '')) : ''
+      $('#info9').text(info9display)
       $('#info10').text(queryParams['info10'])
       $('#info11').text(convertToThaiDate(queryParams['info11']))
       $('#info12').text(queryParams['info12'])

@@ -61,7 +61,7 @@
 
           <div class="col-md-4">
             <label for="info5" class="form-label">ชั้น</label>
-            <input type="text" class="form-control" placeholder="ระบุชั้นปี" id="info5" name="info5" required>
+            <input type="text" class="form-control" placeholder="ระบุชั้นปี" id="info5" name="info5" >
           </div>
 
           <div class="col-md-4">
@@ -74,20 +74,20 @@
           <div class="col-md-4">
             <label for="info7" class="form-label">เสื้อนักเรียน</label>
             <input type="text" class="form-control" inputmode="numeric" placeholder="ระบุจำนวนชุด" id="info7"
-              name="info7" required>
+              name="info7" >
           </div>
 
           <div class="col-md-4">
             <label for="info8" class="form-label">เสื้อพละ</label>
             <input type="text" class="form-control" inputmode="numeric" id="info8" name="info8"
-              placeholder="ระบุจำนวนชุด" required>
+              placeholder="ระบุจำนวนชุด" >
           </div>
 
-          <div class="col-md-8">
+          <div class="col-md-4">
             <label class="form-label">เสื้ออื่นๆ</label>
             <div class="row g-2">
-              <div class="col-8">
-                <select class="form-select" id="info9" name="info9" required>
+              <div class="col-12" id="info9select_wrap">
+                <select class="form-select" id="info9" name="info9">
                   <option value="" selected disabled>-- เลือกประเภทเสื้อ --</option>
                   <option value="ลูกเสือ">ลูกเสือ</option>
                   <option value="เนตรนารี">เนตรนารี</option>
@@ -95,12 +95,12 @@
                   <option value="อื่นๆ">อื่นๆ</option>
                 </select>
               </div>
-              <div class="col-12" id="info9other_wrap" style="display:none">
-                <input type="text" class="form-control" id="info9other" name="info9other" placeholder="ระบุชื่อเสื้อ">
-              </div>
-              <div class="col-4">
+              <div class="col-4" id="info9qty_wrap" style="display:none">
                 <input type="text" class="form-control" inputmode="numeric" id="info9qty" name="info9qty"
-                  placeholder="จำนวนชุด" required>
+                  placeholder="จำนวนชุด">
+              </div>
+              <div class="col-4" id="info9other_wrap" style="display:none">
+                <input type="text" class="form-control" id="info9other" name="info9other" placeholder="ระบุชื่อเสื้อ">
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@
           <div class="col-md-4">
             <label for="info10" class="form-label">เบอร์ติดต่อ</label>
             <input type="text" class="form-control" inputmode="numeric" maxlength="10" minlength="10" id="info10"
-              name="info10" placeholder="0xxxxxxxxx" required>
+              name="info10" placeholder="0xxxxxxxxx" >
           </div>
 
           <div class="col-md-4">
@@ -133,10 +133,21 @@
   <script src="script.js"></script>
   <script>
     $('#info9').on('change', function () {
-      if ($(this).val() === 'อื่นๆ') {
-        $('#info9other_wrap').show()
+      const val = $(this).val()
+      if (!val) {
+        $('#info9select_wrap').attr('class', 'col-12')
+        $('#info9qty_wrap').hide()
+        $('#info9qty').removeAttr('required').val('')
+        $('#info9other_wrap').hide()
+        $('#info9other').removeAttr('required').val('')
+      } else if (val === 'อื่นๆ') {
+        $('#info9select_wrap').attr('class', 'col-4')
+        $('#info9qty_wrap').show().attr('class', 'col-4').find('input').attr('required', true)
+        $('#info9other_wrap').show().attr('class', 'col-4')
         $('#info9other').attr('required', true)
       } else {
+        $('#info9select_wrap').attr('class', 'col-6')
+        $('#info9qty_wrap').show().attr('class', 'col-6').find('input').attr('required', true)
         $('#info9other_wrap').hide()
         $('#info9other').removeAttr('required').val('')
       }
