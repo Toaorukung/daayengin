@@ -12,10 +12,12 @@
   <title>Document Printout</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Thonburi', 'Noto Sans Thai', 'Tahoma', sans-serif;
       margin: 0;
       padding: 16px;
       font-size: 13px;
+      line-height: 1.35;
+      -webkit-text-size-adjust: 100%;
     }
 
     .title {
@@ -24,6 +26,7 @@
       color: red;
       text-align: center;
       margin-bottom: 4px;
+      line-height: 1.35;
     }
 
     .header-row {
@@ -71,8 +74,8 @@
       body {
         margin: 0 !important;
         padding: 0 !important;
-        font-size: 11px;
-        line-height: 1.2;
+        font-size: 12px;
+        line-height: 1.3;
       }
 
       .container {
@@ -82,9 +85,9 @@
       }
 
       .title {
-        font-size: 18px;
+        font-size: 20px;
         margin-bottom: 2px;
-        line-height: 1.15;
+        line-height: 1.35;
       }
 
       .header-row {
@@ -92,11 +95,11 @@
       }
 
       .header-left {
-        font-size: 10px;
+        font-size: 11px;
       }
 
       .header-right {
-        font-size: 12px;
+        font-size: 13px;
       }
 
       .field {
@@ -104,23 +107,23 @@
       }
 
       .label {
-        font-size: 9px;
-        line-height: 1.1;
+        font-size: 10px;
+        line-height: 1.2;
       }
 
       .value {
-        font-size: 15px;
-        line-height: 1.15;
+        font-size: 16px;
+        line-height: 1.2;
       }
 
       .value-sm {
-        font-size: 11px;
-        line-height: 1.15;
+        font-size: 12px;
+        line-height: 1.25;
       }
 
       .value-lg {
-        font-size: 16px;
-        line-height: 1.15;
+        font-size: 18px;
+        line-height: 1.2;
       }
 
       .row-2col {
@@ -129,8 +132,8 @@
       }
 
       .date-value {
-        font-size: 18px;
-        line-height: 1.1;
+        font-size: 20px;
+        line-height: 1.15;
       }
 
       .field[style] {
@@ -220,31 +223,52 @@
     $(document).ready(function () {
       function getQueryParams() {
         let params = {}
-        window.location.search.substring(1).split("&").forEach(function (part) {
-          let item = part.split("=")
-          params[item[0]] = decodeURIComponent(item[1])
+        const query = window.location.search.substring(1)
+
+        if (!query) {
+          return params
+        }
+
+        query.split("&").forEach(function (part) {
+          if (!part) {
+            return
+          }
+
+          const item = part.split("=")
+          const key = item[0]
+          const rawValue = item.length > 1 ? item.slice(1).join("=") : ""
+
+          if (!key) {
+            return
+          }
+
+          params[key] = decodeURIComponent(rawValue.replace(/\+/g, " "))
         })
+
         return params
       }
 
       let queryParams = getQueryParams()
+      const getValue = (key) => queryParams[key] || ''
 
-      $('#info1').text(queryParams['info1'] + ' ' + queryParams['info2'])
-      $('#info3').text(queryParams['info3'])
-      $('#info4').text(queryParams['info4'])
-      $('#info5').text(queryParams['info5'])
-      $('#info6').text(queryParams['info6'])
-      $('#info7').text(queryParams['info7'])
-      $('#info8').text(queryParams['info8'])
-      const info9type = queryParams['info9'] || ''
-      const info9qty = queryParams['info9qty'] || ''
-      const info9other = queryParams['info9other'] || ''
+      const fullName = [getValue('info1'), getValue('info2')].filter(Boolean).join(' ')
+
+      $('#info1').text(fullName)
+      $('#info3').text(getValue('info3'))
+      $('#info4').text(getValue('info4'))
+      $('#info5').text(getValue('info5'))
+      $('#info6').text(getValue('info6'))
+      $('#info7').text(getValue('info7'))
+      $('#info8').text(getValue('info8'))
+      const info9type = getValue('info9')
+      const info9qty = getValue('info9qty')
+      const info9other = getValue('info9other')
       const info9display = info9type ? ((info9type === 'อื่นๆ' ? info9other : info9type) + (info9qty ? ' ' + info9qty : '')) : ''
       $('#info9').text(info9display)
-      $('#info10').text(queryParams['info10'])
-      $('#info11').text(convertToThaiDate(queryParams['info11']))
-      $('#info12').text(queryParams['info12'])
-      $('#iddata').text(queryParams['iddata'])
+      $('#info10').text(getValue('info10'))
+      $('#info11').text(convertToThaiDate(getValue('info11')))
+      $('#info12').text(getValue('info12'))
+      $('#iddata').text(getValue('iddata'))
 
       window.print()
       window.onafterprint = function () {
@@ -253,11 +277,23 @@
     })
 
     function convertToThaiDate(isoDate) {
+      if (!isoDate || !isoDate.includes('-')) {
+        return ''
+      }
+
       const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
       const [year, month, day] = isoDate.split('-');
+      if (!year || !month || !day) {
+        return ''
+      }
+
       const thaiYear = parseInt(year) + 543;
       const thaiMonth = thaiMonths[parseInt(month) - 1];
+      if (!thaiMonth || Number.isNaN(thaiYear)) {
+        return ''
+      }
+
       const thaiDate = `${day} ${thaiMonth} ${thaiYear}`;
 
       return thaiDate;
