@@ -58,6 +58,12 @@
       color: red;
     }
 
+    .pickup-date-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
     .indent { padding-left: 20px; }
     @media print {
       @page {
@@ -212,8 +218,10 @@
     </div>
 
     <div class="field" style="margin-top:12px;">
-      <div class="label">นัดรับวันที่</div>
-      <div class="date-value" id="info11"></div>
+      <div class="pickup-date-row">
+        <div class="label">นัดรับวันที่</div>
+        <div class="date-value" id="info11"></div>
+      </div>
     </div>
 
   </div>
